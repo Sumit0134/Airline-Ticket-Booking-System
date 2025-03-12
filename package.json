@@ -1,0 +1,31 @@
+{
+  "name": "airline-ticket-booking-system",
+  "version": "1.0.0",
+  "description": "This is the backend of Airline Ticket Booking System created with technologies such as Node.js, Express.js, and MySQL.",
+  "keywords": [
+    "backend",
+    "airline",
+    "ticket",
+    "booking",
+    "system",
+    "node",
+    "express",
+    "mysql"
+  ],
+  "license": "ISC",
+  "author": "Sumit Kumar Shaw",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2",
+    "winston": "^3.17.0"
+  }
+}
