@@ -1,3 +1,6 @@
+// This is the file to handle the app error
+
+// creating the app error
 class AppError extends Error {
     constructor(message, statusCode){
         super(message)
@@ -6,4 +9,5 @@ class AppError extends Error {
     }
 }
 
+// exporting the app error
 module.exports=AppError
