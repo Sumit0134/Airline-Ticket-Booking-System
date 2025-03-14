@@ -92,7 +92,7 @@ async function updateAirplane(id, data){
   } catch (error) {
     if (error.statusCode === StatusCodes.NOT_FOUND) {
       throw new AppError(
-        "The requested airplane to delete does not exist",
+        "The requested airplane to update does not exist",
         error.statusCode
       );
     }

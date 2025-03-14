@@ -18,7 +18,6 @@ async function createCity(data) {
     const city = await cityRepository.create(data);
     return city;
   } catch (error) {
-    console.log(error);
     if (
       error.name == "SequelizeValidationError" ||
       error.name == "SequelizeUniqueConstraintError"
@@ -37,7 +36,47 @@ async function createCity(data) {
   }
 }
 
+// deleting a city
+async function deleteCity(id) {
+  try {
+    const city = await cityRepository.destroy(id);
+    return city;
+  } catch (error) {
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError(
+        "The requested city to delete does not exist",
+        error.statusCode
+      );
+    }
+    throw new AppError(
+      "Cannot get an airplane",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+// updating a city
+async function updateCity(id, data) {
+  try {
+    const city = await cityRepository.update(id, data);
+    return city;
+  } catch (error) {
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError(
+        "The requested city to update does not exist",
+        error.statusCode
+      );
+    }
+    throw new AppError(
+      "Cannot get an airplane",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
 // exporting the city function
 module.exports = {
   createCity,
+  deleteCity,
+  updateCity
 };
