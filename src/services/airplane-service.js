@@ -103,7 +103,7 @@ async function updateAirplane(id, data){
   }
 }
 
-// exporting the createAirplane function
+// exporting the airplane function
 module.exports = {
   createAirplane,
   getAllAirplanes,
