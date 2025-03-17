@@ -15,6 +15,9 @@ const airplaneRoutes = require("./airplane-routes");
 // importing city routes
 const cityRoutes = require("./city-routes");
 
+// importing airport routes
+const airportRoutes = require("./airport-routes");
+
 // /api/v1/info
 router.get("/info", infoController.info);
 
@@ -23,6 +26,9 @@ router.use("/airplanes", airplaneRoutes);
 
 // /api/v1/cities
 router.use("/cities", cityRoutes);
+
+// /api/v1/airports
+router.use("/airports", airportRoutes);
 
 // exporting the router
 module.exports = router;
