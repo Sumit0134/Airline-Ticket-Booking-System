@@ -12,6 +12,10 @@ const AppError = require("../utils/app/app-error");
 // creating the flight repository object
 const flightRepository = new FlightRepository();
 
+// importing operator
+const { Op } = require("sequelize");
+
+// importing compare time
 const { CompareTime } = require("../utils/helpers/dateTime-helper");
 
 // creating a new flight
@@ -47,7 +51,47 @@ async function createFlight(data) {
   }
 }
 
+// getting flights based on query params
+async function getAllFlights(query) {
+  if (query) {
+    let customFilter = {};
+
+    // based on trips = MUM-DEL
+    if (query.trips) {
+      [departureAirportId, arrivalAirportId] = query.trips.split("-");
+      customFilter.departureAirportId = departureAirportId;
+      customFilter.arrivalAirportId = arrivalAirportId;
+
+      if (customFilter.departureAirportId === customFilter.arrivalAirportId) {
+        throw new AppError(
+          "Departure and arrival airport cannot be same",
+          StatusCodes.BAD_REQUEST
+        );
+      }
+    }
+
+    // based on price
+    if (query.price) {
+      [minPrice, maxPrice] = query.price.split("-");
+      customFilter.price = {
+        [Op.between]: [minPrice, ((maxPrice===undefined)?20000:maxPrice)],
+      };
+    }
+
+    try {
+      const flights = await flightRepository.getAllFlights(customFilter);
+      return flights;
+    } catch (error) {
+      throw new AppError(
+        "Cannot get all the flights",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+}
+
 // exporting the flight service
 module.exports = {
   createFlight,
+  getAllFlights,
 };

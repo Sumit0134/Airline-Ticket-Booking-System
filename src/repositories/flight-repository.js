@@ -11,7 +11,14 @@ class FlightRepository extends CrudRepository {
   constructor() {
     super(Flight);
   }
+
+  async getAllFlights(filter) {
+    const response = await Flight.findAll({
+      where: filter,
+    });
+    return response;
+  }
 }
 
 // exporting the flight repository
-module.exports=FlightRepository;
+module.exports = FlightRepository;
