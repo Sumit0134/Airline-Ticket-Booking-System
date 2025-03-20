@@ -12,9 +12,17 @@ const AppError = require("../utils/app/app-error");
 // creating the flight repository object
 const flightRepository = new FlightRepository();
 
+const { CompareTime } = require("../utils/helpers/dateTime-helper");
+
 // creating a new flight
 async function createFlight(data) {
   try {
+    if (CompareTime(data.departureTime, data.arrivalTime)) {
+      throw new AppError(
+        "Arrival time should be greater than departure time",
+        StatusCodes.BAD_REQUEST
+      );
+    }
     const flight = await flightRepository.create(data);
     return flight;
   } catch (error) {
@@ -25,6 +33,12 @@ async function createFlight(data) {
       });
 
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
+    }
+    if (error.statusCode === StatusCodes.BAD_REQUEST) {
+      throw new AppError(
+        "Arrival time should be greater than departure time",
+        StatusCodes.BAD_REQUEST
+      );
     }
     throw new AppError(
       "Cannot create a new flight object",
