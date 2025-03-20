@@ -55,6 +55,7 @@ async function createFlight(data) {
 async function getAllFlights(query) {
   if (query) {
     let customFilter = {};
+    const tripEndingTime=" 23:59:00";
 
     // based on trips = MUM-DEL
     if (query.trips) {
@@ -76,6 +77,20 @@ async function getAllFlights(query) {
       customFilter.price = {
         [Op.between]: [minPrice, ((maxPrice===undefined)?20000:maxPrice)],
       };
+    }
+
+    // based on number of travellers
+    if(query.travellers){
+      customFilter.totalSeats={
+        [Op.gte]: query.travellers
+      }
+    }
+
+    // based on departure date
+    if(query.tripDate){
+      customFilter.departureTime={
+        [Op.between]: [query.tripDate, query.tripDate+tripEndingTime]
+      }
     }
 
     try {
